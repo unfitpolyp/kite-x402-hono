@@ -1,5 +1,8 @@
 import { describe, it, expect } from "bun:test";
-import { WebhookDispatcher, type WebhookEventPayload } from "../src/webhook-dispatcher";
+import {
+  WebhookDispatcher,
+  type WebhookEventPayload,
+} from "../src/webhook-dispatcher.js";
 
 describe("WebhookDispatcher", () => {
   it("generates deterministic HMAC-SHA256 signatures", () => {
@@ -29,7 +32,7 @@ describe("WebhookDispatcher", () => {
     const res = await WebhookDispatcher.dispatch(
       { url: "https://example.com/webhook", secret: "secret_123" },
       event,
-      mockFetch
+      mockFetch,
     );
 
     expect(res.success).toBe(true);

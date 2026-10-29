@@ -26,12 +26,15 @@ export class WebhookDispatcher {
   public static async dispatch(
     endpoint: WebhookEndpointConfig,
     event: WebhookEventPayload,
-    fetchFn = fetch
+    fetchFn = fetch,
   ): Promise<{ success: boolean; status?: number; error?: string }> {
     const serialized = JSON.stringify(event);
     const signature = this.signPayload(serialized, endpoint.secret);
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), endpoint.timeoutMs ?? 5000);
+    const timeout = setTimeout(
+      () => controller.abort(),
+      endpoint.timeoutMs ?? 5000,
+    );
 
     try {
       const resp = await fetchFn(endpoint.url, {
